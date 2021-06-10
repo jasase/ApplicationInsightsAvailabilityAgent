@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ApplicationInsightsAvailabilityAgent.Core.Options;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Extensions.Logging;
 
@@ -12,12 +13,14 @@ namespace ApplicationInsightsAvailabilityAgent.Core
         private readonly ILogger<CheckerExecutor> _logger;
         private readonly ITelemetrySender _telemetrySender;
         private readonly Checker.Checker[] _checkers;
+        private readonly CheckExecuterOptions _options;
 
-        public CheckerExecutor(ILogger<CheckerExecutor> logger, ITelemetrySender telemetrySender, Checker.Checker[] checker)
+        public CheckerExecutor(ILogger<CheckerExecutor> logger, ITelemetrySender telemetrySender, Checker.Checker[] checker, Options.CheckExecuterOptions options)
         {
             _logger = logger;
             _telemetrySender = telemetrySender;
             _checkers = checker;
+            _options = options;
         }
 
         public async Task Execute(CancellationToken cancellationToken)
@@ -49,7 +52,8 @@ namespace ApplicationInsightsAvailabilityAgent.Core
                     Duration = stopwatch.Elapsed,
                     Success = result,
                     Name = checker.Name,
-                    Message = message
+                    Message = message,
+                    RunLocation = _options.RunLocation
                 };
                 _telemetrySender.TrackAvailability(checker.InstrumentationKey, telemetry);
             }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using ApplicationInsightsAvailabilityAgent.Core.Checker;
 using ApplicationInsightsAvailabilityAgent.Core.Options;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +30,27 @@ namespace ApplicationInsightsAvailabilityAgent.Core
                                                                          .Select(f => f.CreateChecker(x.Key, x.Value)))
                                         .ToArray();
 
-            return new CheckerExecutor(_serviceProvider.GetService<ILogger<CheckerExecutor>>(), _serviceProvider.GetService<ITelemetrySender>(), checker);
+            if (string.IsNullOrWhiteSpace(options.RunLocation))
+            {
+                options.RunLocation = GetFQDN();
+            }
+
+            return new CheckerExecutor(_serviceProvider.GetService<ILogger<CheckerExecutor>>(), _serviceProvider.GetService<ITelemetrySender>(), checker, options);
+        }
+
+
+        private string GetFQDN()
+        {
+            var domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
+            var hostName = Dns.GetHostName();
+
+            domainName = "." + domainName;
+            if (!hostName.EndsWith(domainName))
+            {
+                hostName += domainName;
+            }
+
+            return hostName;
         }
     }
 }
