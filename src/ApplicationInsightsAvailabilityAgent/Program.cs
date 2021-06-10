@@ -4,18 +4,16 @@ using Microsoft.Extensions.Hosting;
 
 namespace ApplicationInsightsAvailabilityAgent
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
-        {
-            Host.CreateDefaultBuilder(args)
-                .ConfigureServices((c, s) =>
-                {
-                    s.AddAvailabilityChecks(c.Configuration);
-                    s.AddHostedService<CheckService>();
-                })
-                .Build()
-                .Run();
-        }
+        public static void Main(string[] args)
+            => Host.CreateDefaultBuilder(args)
+                   .ConfigureServices((c, s) =>
+                   {
+                       s.AddAvailabilityChecks(c.Configuration);
+                       s.AddHostedService<CheckService>();
+                   })
+                   .Build()
+                   .Run();
     }
 }

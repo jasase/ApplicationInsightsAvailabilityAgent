@@ -1,5 +1,7 @@
-﻿using ApplicationInsightsAvailabilityAgent.Core.Options;
+﻿using System;
+using ApplicationInsightsAvailabilityAgent.Core.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 {
@@ -13,6 +15,12 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
     public abstract class CheckerFactory<TOptions> : CheckerFactory
         where TOptions : class, new()
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public CheckerFactory(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public override Checker CreateChecker(string name, AvailabilityCheckOptions checkOptions)
         {

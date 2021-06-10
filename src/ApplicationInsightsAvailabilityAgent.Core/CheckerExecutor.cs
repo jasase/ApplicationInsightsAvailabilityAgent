@@ -5,16 +5,16 @@ namespace ApplicationInsightsAvailabilityAgent.Core
 {
     public class CheckerExecutor
     {
-        private Checker.Checker[] checkers;
+        private readonly Checker.Checker[] _checkers;
 
         public CheckerExecutor(Checker.Checker[] checker)
         {
-            this.checkers = checker;
+            _checkers = checker;
         }
 
         public async Task Execute(CancellationToken cancellationToken)
         {
-            foreach (var checker in checkers)
+            foreach (var checker in _checkers)
             {
                 await checker.Execute(cancellationToken);
 

@@ -8,6 +8,7 @@ namespace ApplicationInsightsAvailabilityAgent.Core
     {
         public static void AddAvailabilityChecks(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHttpClient();
             services.AddOptions<CheckExecuterOptions>().Bind(configuration);
             services.AddSingleton<ICheckerExecutorFactory, CheckerExecutorFactory>();
         }
