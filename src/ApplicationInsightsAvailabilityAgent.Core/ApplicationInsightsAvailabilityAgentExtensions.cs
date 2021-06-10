@@ -11,6 +11,7 @@ namespace ApplicationInsightsAvailabilityAgent.Core
             services.AddHttpClient();
             services.AddOptions<CheckExecuterOptions>().Bind(configuration);
             services.AddSingleton<ICheckerExecutorFactory, CheckerExecutorFactory>();
+            services.AddSingleton<ITelemetrySender, TelemetrySender>();
         }
     }
 }

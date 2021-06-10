@@ -15,11 +15,11 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
     public abstract class CheckerFactory<TOptions> : CheckerFactory
         where TOptions : class, new()
     {
-        private readonly IServiceProvider _serviceProvider;
+        protected IServiceProvider ServiceProvider { get; }
 
         public CheckerFactory(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            ServiceProvider = serviceProvider;
         }
 
         public override Checker CreateChecker(string name, AvailabilityCheckOptions checkOptions)

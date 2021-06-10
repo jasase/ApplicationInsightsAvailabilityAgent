@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 {
@@ -12,9 +14,6 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
         public override string CheckerType => "http";
 
         protected override Checker CreateCheckerInternal(CheckerOptions<HttpCheckerOptions> options)
-        {
-            var t = 0;
-            return new HttpChecker(null, null, options);
-        }
+            => new HttpChecker(ServiceProvider.GetService<ILogger<HttpChecker>>(), ServiceProvider.GetService<IHttpClientFactory>(), options);
     }
 }

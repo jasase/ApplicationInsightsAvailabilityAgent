@@ -1,7 +1,9 @@
-﻿namespace ApplicationInsightsAvailabilityAgent.Core.Checker
+﻿using System;
+
+namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 {
     public class HttpCheckerOptions
     {
-        public string Uri { get; set; }
+        public Uri Uri { get; set; }
     }
 }

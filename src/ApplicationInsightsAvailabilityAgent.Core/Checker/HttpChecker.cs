@@ -14,16 +14,20 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
         public HttpChecker([NotNull] ILogger<HttpChecker> logger,
                            IHttpClientFactory httpClientFactory,
                            CheckerOptions<HttpCheckerOptions> options)
-            : base(logger)
+            : base(logger, options)
         {
             _httpClientFactory = httpClientFactory;
             _options = options;
         }
 
-        public override async Task<bool> Execute(CancellationToken cancellationToken)
+        public override async Task<CheckerResult> Execute(CancellationToken cancellationToken)
         {
-            var t = 0;
-            return false;
+            using var httpClient = _httpClientFactory.CreateClient();
+            httpClient.BaseAddress = _options.Options.Uri;
+
+            var result = await httpClient.GetAsync("").ConfigureAwait(false);
+
+            return new CheckerResult(result.IsSuccessStatusCode, $"Response status code: {result.StatusCode} ({(int) result.StatusCode})");
         }
     }
 }

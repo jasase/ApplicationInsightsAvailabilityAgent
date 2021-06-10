@@ -1,18 +1,25 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 {
     public abstract class Checker
     {
-        public Checker(ILogger logger)
-        {
-            Logger = logger;
-        }
+        private readonly CheckerOptions _checkerOptions;
 
-        public abstract Task<bool> Execute(CancellationToken cancellationToken);
+        public string Name => _checkerOptions.Name;
+        public string InstrumentationKey => _checkerOptions.InstrumentationKey;
 
         protected ILogger Logger { get; }
+
+        public Checker(ILogger logger, CheckerOptions checkerOptions)
+        {
+            Logger = logger;
+            _checkerOptions = checkerOptions;
+        }
+
+        public abstract Task<CheckerResult> Execute(CancellationToken cancellationToken);
+
     }
 }
