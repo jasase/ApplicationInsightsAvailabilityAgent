@@ -16,7 +16,7 @@ variables:
   ${{ if ne( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: '$(Build.BuildId)'
   
-  repositoryName: 'jasase/ApplicationInsightsAvailabilityAgent'
+  repositoryName: 'jasase/AppInsightsAvailabilityAgent'
 
 stages:
 - stage: Build
