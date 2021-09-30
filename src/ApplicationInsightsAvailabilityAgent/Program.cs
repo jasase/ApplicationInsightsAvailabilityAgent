@@ -8,6 +8,7 @@ namespace ApplicationInsightsAvailabilityAgent
     {
         public static void Main(string[] args)
             => Host.CreateDefaultBuilder(args)
+                   .UseWindowsService(options => options.ServiceName = "AppInsightAvailibilityAgent")
                    .ConfigureServices((c, s) =>
                    {
                        s.AddAvailabilityChecks(c.Configuration);
