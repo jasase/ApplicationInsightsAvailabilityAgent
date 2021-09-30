@@ -11,7 +11,7 @@ resources:
 variables:
   ${{ if eq( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: | 
-      $(Build.BuildId) 
+      $(Build.BuildId)
       latest
   ${{ if ne( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: '$(Build.BuildId)'
