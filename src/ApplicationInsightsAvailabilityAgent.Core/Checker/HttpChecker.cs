@@ -11,6 +11,8 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly CheckerOptions<HttpCheckerOptions> _options;
 
+        public override string Method => HttpCheckerFactory.CHECKER_TYPE_NAME;
+
         public HttpChecker([NotNull] ILogger<HttpChecker> logger,
                            IHttpClientFactory httpClientFactory,
                            CheckerOptions<HttpCheckerOptions> options)
@@ -19,6 +21,7 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
             _httpClientFactory = httpClientFactory;
             _options = options;
         }
+
 
         public override async Task<CheckerResult> Execute(CancellationToken cancellationToken)
         {
@@ -29,5 +32,7 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 
             return new CheckerResult(result.IsSuccessStatusCode, $"Response status code: {result.StatusCode} ({(int) result.StatusCode})");
         }
+
+        public override string DumpOptions() => _options.Options.Uri.ToString();
     }
 }

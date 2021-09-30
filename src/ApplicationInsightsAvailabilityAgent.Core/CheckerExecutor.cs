@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ApplicationInsightsAvailabilityAgent.Core.Options;
@@ -21,6 +23,23 @@ namespace ApplicationInsightsAvailabilityAgent.Core
             _telemetrySender = telemetrySender;
             _checkers = checker;
             _options = options;
+        }
+
+        public string DumpCheckerConfiguration()
+        {
+            var sb = new StringBuilder();
+            const string FORMAT = "{0,-40} | {1,-38} | {2,-10} | {3}";
+
+            sb.AppendFormat(CultureInfo.InvariantCulture, FORMAT, "Name", "Instrumentation Key", "Method", "Options");
+            sb.AppendLine();
+
+            foreach (var checker in _checkers)
+            {
+                sb.AppendFormat(CultureInfo.InvariantCulture, FORMAT, checker.Name, checker.InstrumentationKey, checker.Method, checker.DumpOptions());
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
 
         public async Task Execute(CancellationToken cancellationToken)

@@ -10,6 +10,7 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 
         public string Name => _checkerOptions.Name;
         public string InstrumentationKey => _checkerOptions.InstrumentationKey;
+        public abstract string Method { get; }
 
         protected ILogger Logger { get; }
 
@@ -21,5 +22,6 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 
         public abstract Task<CheckerResult> Execute(CancellationToken cancellationToken);
 
+        public abstract string DumpOptions();
     }
 }
