@@ -40,7 +40,7 @@ stages:
 
     - task: Docker@2
       displayName: Push docker image
-      condition: 'and(succeeded(), eq(variables['Build.SourceBranch'], 'main'))'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'main'))
       inputs:
         containerRegistry: 'Docker Hub'
         repository: '$(repositoryName)'
