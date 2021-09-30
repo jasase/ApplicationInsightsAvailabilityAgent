@@ -9,7 +9,14 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  ${{ if eq( variables['Build.SourceBranchName'], 'main' ) }}: 
+    tag: | 
+      $(Build.BuildId) 
+      latest
+  ${{ if ne( variables['Build.SourceBranchName'], 'main' ) }}: 
+    tag: '$(Build.BuildId)'
+  
+  repositoryName: 'jasase/ApplicationInsightsAvailabilityAgent'
 
 stages:
 - stage: Build
@@ -20,10 +27,22 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build docker image
       inputs:
+        containerRegistry: 'Docker Hub'
+        repository: '$(repositoryName)'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/src/ApplicationInsightsAvailabilityAgent/Dockerfile'
         buildContext: 'src'
+        tags: '$(tag)'
+
+    - task: Docker@2
+      displayName: Push docker image
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'main'))
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: '$(repositoryName)'
+        command: 'push'
         tags: '$(tag)'
