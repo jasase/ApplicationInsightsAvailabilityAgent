@@ -21,9 +21,16 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build docker image
       inputs:
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/src/ApplicationInsightsAvailabilityAgent/Dockerfile'
         buildContext: 'src'
         tags: '$(tag)'
+
+    - task: Docker@2
+      displayName: Push docker image
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'ApplicationInsightsAvailabilityAgent'
+        command: 'push'
