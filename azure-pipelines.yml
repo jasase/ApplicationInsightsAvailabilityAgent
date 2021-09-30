@@ -23,6 +23,7 @@ stages:
     - task: Docker@2
       displayName: Build docker image
       inputs:
+        repository: 'ApplicationInsightsAvailabilityAgent'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/src/ApplicationInsightsAvailabilityAgent/Dockerfile'
         buildContext: 'src'
