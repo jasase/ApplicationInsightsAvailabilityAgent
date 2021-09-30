@@ -14,6 +14,7 @@ Global configuration parameter. Every parameter is optional.
 | Environment variable | Description | Default |
 |----------------------|-------------|---------|
 | RUNLOCATION          | The location of the execution of the availability check which will be reported to Application Insights |  [Hostname] |
+| CHECKINTERVAL        | Interval of check execution |  00:05:00 |
 
 
 Configuration parameter to configure one availability check. This parameters can be repeated to execute multiple check by changed the name part of the variable. Every parameter is mandantory.
