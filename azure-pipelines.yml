@@ -9,10 +9,10 @@ resources:
 - repo: self
 
 variables:
- ${{ if eq( variables['Build.SourceBranchName'], 'main' ) }}: 
-    tag: |
-      $(Build.BuildId)
-      latest 
+  ${{ if eq( variables['Build.SourceBranchName'], 'main' ) }}: 
+    tag: | 
+      $(Build.BuildId) 
+      latest
   ${{ if ne( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: '$(Build.BuildId)'
   
