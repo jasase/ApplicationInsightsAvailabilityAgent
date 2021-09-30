@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ApplicationInsightsAvailabilityAgent.Core.Options
 {
     public class CheckExecuterOptions
     {
         public string RunLocation { get; set; }
+        public TimeSpan CheckInterval { get; set; }
 
 #pragma warning disable CA2227 // It is configuration DTO
         public Dictionary<string, AvailabilityCheckOptions> Checks { get; set; }

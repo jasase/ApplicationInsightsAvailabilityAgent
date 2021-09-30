@@ -59,7 +59,7 @@ namespace ApplicationInsightsAvailabilityAgent
 
                 _logger.LogInformation("Check run number {0} finished", _runCounter++);
 
-                await Task.Delay(TimeSpan.FromMinutes(1), _cancellationTokenSource.Token).ConfigureAwait(false);
+                await Task.Delay(_options.CurrentValue.CheckInterval, _cancellationTokenSource.Token).ConfigureAwait(false);
             }
         }
     }
