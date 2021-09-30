@@ -10,7 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  repositoryName: 'ApplicationInsightsAvailabilityAgent'
+  repositoryName: 'jasase/ApplicationInsightsAvailabilityAgent'
 
 stages:
 - stage: Build
