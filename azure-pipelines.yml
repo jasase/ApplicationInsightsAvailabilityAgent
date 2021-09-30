@@ -12,6 +12,7 @@ variables:
   ${{ if eq( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: | 
       $(Build.BuildId)
+      1.0.0
       latest
   ${{ if ne( variables['Build.SourceBranchName'], 'main' ) }}: 
     tag: '$(Build.BuildId)'
