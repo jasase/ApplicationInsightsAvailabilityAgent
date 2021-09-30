@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,26 @@ namespace ApplicationInsightsAvailabilityAgent.Core.Checker
 
             var result = await httpClient.GetAsync("").ConfigureAwait(false);
 
-            return new CheckerResult(result.IsSuccessStatusCode, $"Response status code: {result.StatusCode} ({(int) result.StatusCode})");
+            var message = $"Response status code: {result.StatusCode} ({(int) result.StatusCode})";
+            if (_options.Options.AddHttpBodyToResult)
+            {
+                message += Environment.NewLine;
+                message += await GetBody(result);
+            }
+
+            return new CheckerResult(result.IsSuccessStatusCode, message);
+        }
+
+        private async Task<string> GetBody(HttpResponseMessage responseMessage)
+        {
+            try
+            {
+                return await responseMessage.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public override string DumpOptions() => _options.Options.Uri.ToString();
